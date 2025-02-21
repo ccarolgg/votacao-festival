@@ -9,7 +9,7 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1sYEi_6zcVfiv7rwUQi5ZwNqdzHH
 SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 credenciais = st.secrets["gcp_service_account"]
-credenciais_dict = json.loads(json.dumps(credenciais))
+credenciais_dict = dict(credenciais)
 
 CREDENTIALS = ServiceAccountCredentials.from_json_keyfile_dict(credenciais_dict, SCOPES)
 client = gspread.authorize(CREDENTIALS)
