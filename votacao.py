@@ -1,12 +1,17 @@
 import streamlit as st
 import pandas as pd
 import gspread
+import json
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Configuração do Google Sheets
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1sYEi_6zcVfiv7rwUQi5ZwNqdzHH9qXTh8dpKSEabi7o/edit?gid=0#gid=0"
 SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-CREDENTIALS = ServiceAccountCredentials.from_json_keyfile_name("votacao-festival-7df986a60e8b.json", SCOPES)
+
+credenciais = st.secrets["gcp_service_account"]
+credenciais_dict = json.loads(json.dumps(credenciais))
+
+CREDENTIALS = ServiceAccountCredentials.from_json_keyfile_dict(credenciais_dict, SCOPES)
 client = gspread.authorize(CREDENTIALS)
 sheet = client.open_by_url(SHEET_URL).sheet1
 
